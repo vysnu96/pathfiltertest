@@ -6,8 +6,8 @@ parameters:
  
 jobs:
   build:
-    docker:
-      - image: cimg/node
+    machine:
+      image: ubuntu-2004:202008-01
         
     environment:
       IMAGETAG: << pipeline.parameters.image-tag >>
