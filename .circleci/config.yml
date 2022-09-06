@@ -12,6 +12,7 @@ jobs:
     environment:
       IMAGETAG: << pipeline.parameters.image-tag >>
     
+    
     steps:
       - run: |
           echo "Image tag used was ${IMAGETAG}"
