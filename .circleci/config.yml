@@ -15,4 +15,4 @@ jobs:
     steps:
       - run: |
           echo "Image tag used was ${IMAGETAG}"
-          echo pipeline.number
+          echo "<< pipeline.number >>"
