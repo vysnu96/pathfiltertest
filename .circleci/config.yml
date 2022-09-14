@@ -22,11 +22,12 @@ jobs:
 
       - run: |
           echo "Image tag used was ${IMAGETAG}"
-          BUILD="<< pipeline.number >>"
-          echo $BUILD
+          echo << pipeline.number >>
 
 workflows:
   demo:
     jobs:
       - build
-      - two
+      - two:
+          requires:
+            - build
