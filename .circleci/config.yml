@@ -24,3 +24,9 @@ jobs:
           echo "Image tag used was ${IMAGETAG}"
           BUILD="<< pipeline.number >>"
           echo $BUILD
+
+workflows:
+  demo:
+    jobs:
+      - build
+      - two
