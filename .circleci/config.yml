@@ -19,8 +19,7 @@ jobs:
       image: ubuntu-2004:202008-01
     steps:
       - run: echo $CIRCLE_PREVIOUS_BUILD_NUM
-    
-    steps:
+
       - run: |
           echo "Image tag used was ${IMAGETAG}"
           BUILD="<< pipeline.number >>"
