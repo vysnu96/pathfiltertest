@@ -18,7 +18,7 @@ jobs:
     machine:
       image: ubuntu-2004:202008-01
     steps:
-      - run: echo $CIRCLE_PREVIOUS_BUILD_NUM
+      - run: echo ${CIRCLE_PREVIOUS_BUILD_NUM}
 
       - run: |
           echo "Image tag used was ${IMAGETAG}"
