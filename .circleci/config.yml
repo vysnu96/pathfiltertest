@@ -11,7 +11,14 @@ jobs:
         
     environment:
       IMAGETAG: << pipeline.parameters.image-tag >>
-    
+    steps:
+      - run: echo $CIRCLE_BUILD_NUM
+
+  two:
+    machine:
+      image: ubuntu-2004:202008-01
+    steps:
+      - run: echo $CIRCLE_PREVIOUS_BUILD_NUM
     
     steps:
       - run: |
