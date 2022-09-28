@@ -9,25 +9,17 @@ jobs:
     machine:
       image: ubuntu-2004:202008-01
         
-    environment:
-      IMAGETAG: << pipeline.parameters.image-tag >>
     steps:
-      - run: echo $CIRCLE_BUILD_NUM
+      - checkout
+      - run:
+          name: Zipping
+          command: | 
+            zip list.zip list.txt
+            ls -ltr
 
-  two:
-    machine:
-      image: ubuntu-2004:202008-01
-    steps:
-      - run: echo ${CIRCLE_PREVIOUS_BUILD_NUM}
-
-      - run: |
-          echo "Image tag used was ${IMAGETAG}"
-          echo << pipeline.number >>
+  
 
 workflows:
   demo:
     jobs:
       - build
-      - two:
-          requires:
-            - build
