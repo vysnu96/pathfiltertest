@@ -1,11 +1,12 @@
 version: 2.1
 orbs:
   ms-teams-notifier: oktapodia/ms-teams-notifier@3.0.0
-  ms-teams-orb: opub/ms-teams-orb@1.0.3
+  ms-teams: opub/ms-teams-orb@1.0.3
 jobs:
   build:
-    machine:
-      image: ubuntu-2004:202008-01
+    docker:
+      - image: cimg/base:2023.02
+    resource_class: small
 
     steps:
       - checkout
