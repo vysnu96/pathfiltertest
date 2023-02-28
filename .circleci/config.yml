@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - checkout
-      - run: cat test.txt
+      - run: ls -ltr
       - when:
           condition:
             or:
