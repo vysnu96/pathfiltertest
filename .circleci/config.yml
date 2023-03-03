@@ -12,8 +12,8 @@ jobs:
           command: |
             if [ << pipeline.number >> == 1]; then
               echo "New Pipeline"
-            elif
-              echo "This is pipeline with number << pipeline.number >> "
+            else
+              echo "This is old pipeline with number << pipeline.number >> "
 workflows:
   demo:
     jobs:
