@@ -1,31 +1,20 @@
 version: 2.1
-orbs:
-  ms-teams-notifier: oktapodia/ms-teams-notifier@3.0.0
-  ms-teams: opub/ms-teams-orb@1.0.3
+
 jobs:
   build:
     docker:
       - image: cimg/base:2023.02
     resource_class: small
 
-    steps:
-      - checkout
-      - run: ls -ltr
-      - when:
-          condition:
-            or:
-              - and:
-                - equal: [ SUCCESS, __build_status__ ]
-          steps:
-            - ms-teams/report:
-                message: App deployment is __build_status__FUL
-                only_on_fail: false
-                webhook_url: https://thinkpalm.webhook.office.com/webhookb2/a0ac9943-6ea1-405e-836a-069527bdabe6@eec115d2-8418-4d66-8e18-b4283ffca2b1/IncomingWebhook/2b160a71a2b94aafa8c7c14cb3a1c857/fceee280-987f-4308-baf5-28a0b813654b
-                      
-        # - ms-teams-notifier/report:
-      #     only_on_fail: false
-      #     webhook_url: https://thinkpalm.webhook.office.com/webhookb2/a0ac9943-6ea1-405e-836a-069527bdabe6@eec115d2-8418-4d66-8e18-b4283ffca2b1/IncomingWebhook/2b160a71a2b94aafa8c7c14cb3a1c857/fceee280-987f-4308-baf5-28a0b813654b
-      
+    steps:     
+      - run:
+          name: conditional steps
+          command: |
+            if [ << pipeline.number >> == 1]; then
+              echo "New Pipeline"
+            elif
+              echo "This is pipeline with number << pipeline.number >>"
+        
 
   
 
