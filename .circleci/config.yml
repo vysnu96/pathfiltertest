@@ -7,15 +7,19 @@ jobs:
     resource_class: small
 
     steps:     
-      - run:
-          name: conditional steps
-          command: |
-            if [ << pipeline.number >> == 1]; then
-              echo "New Pipeline"
-            else
-              echo "This is old pipeline with number << pipeline.number >> "
-            fi
+      - run: echo "Test Job"
+      # - run:
+      #     name: conditional steps
+      #     command: |
+      #       if [ << pipeline.number >> == 1]; then
+      #         echo "New Pipeline"
+      #       else
+      #         echo "This is old pipeline with number << pipeline.number >> "
+      #       fi
 workflows:
   demo:
+    when:
+      or:
+        - equal: [ test, << pipeline.git.tag >> ]
     jobs:
       - build
