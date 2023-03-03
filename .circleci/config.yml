@@ -13,11 +13,7 @@ jobs:
             if [ << pipeline.number >> == 1]; then
               echo "New Pipeline"
             elif
-              echo "This is pipeline with number << pipeline.number >>"
-        
-
-  
-
+              echo "This is pipeline with number << pipeline.number >> "
 workflows:
   demo:
     jobs:
