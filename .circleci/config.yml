@@ -6,7 +6,13 @@ jobs:
     resource_class: small
 
     steps:     
-      - run: echo "Test Job"
+      - run:
+          name: Trigger
+          command: |
+            sudo apt-get update
+            snap install powershell --classic
+            powershell
+            Invoke-WebRequest -Method Post -Uri https://54d67954-a7c4-4634-a3db-b23fd8202616.webhook.eus.azure-automation.net/webhooks?token=uWnG1PD0QTsyh5qnFRNVlpHSQRt4cRiBYNcmjmKGz0o%3d
       # - run:
       #     name: conditional steps
       #     command: |
@@ -17,8 +23,8 @@ jobs:
       #       fi
 workflows:
   demo:
-    when:
-      or:
-        - equal: [ test, << pipeline.git.tag >> ]
+    # when:
+    #   or:
+    #     - equal: [ test, << pipeline.git.tag >> ]
     jobs:
       - build
