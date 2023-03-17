@@ -12,7 +12,7 @@ jobs:
           name: Trigger
           command: |
             sudo apt-get update
-      - run: sudo apt install snapd && sudo systemctl status snapd.service
+      - run: sudo apt install snapd
       - run: sudo snap install powershell --classic
       - run: powershell
       - run:
