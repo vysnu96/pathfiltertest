@@ -9,8 +9,9 @@ jobs:
       - run:
           name: Trigger
           command: |
-            sudo apt-get update && sudo apt install snapd
-            snap install powershell --classic
+            sudo apt-get update
+      - run: sudo apt install snapd
+      - run: sudo snap install powershell --classic
       - run: powershell
       - run:
           name: second
