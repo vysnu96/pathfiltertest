@@ -5,7 +5,7 @@ jobs:
     #   - image: cimg/base:2023.02
     machine:
       image: ubuntu-2204:2023.02.1
-    resource_class: small
+    # resource_class: small
 
     steps:     
       - run:
