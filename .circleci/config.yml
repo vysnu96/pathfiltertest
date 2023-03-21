@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
-  ms-teams-notifier: oktapodia/ms-teams-notifier@3.0.0
-  ms-teams: opub/ms-teams-orb@1.0.3
+  azure-cli: circleci/azure-cli@1.2.2
 jobs:
   build:
     docker:
@@ -10,33 +9,22 @@ jobs:
 
     steps:
       - checkout
-      - run: lsl -ltr
-      # - run: notifier
-      # - when:
-      #     condition:
-      #       or:
-      #         - and:
-      #           - equal: [ SUCCESS, __build_status__ ]
-      #     steps:
+      - azure-cli/install
+      - run: echo "version 1" > sample.txt
+      - run: 
+          name: Storage
+          command: |
+            az storage container create \
+               --account-name ordertest123 \
+               --name sample-container \
+               --sas-token ?sv=2021-12-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-21T18:58:02Z&st=2023-03-21T10:58:02Z&spr=https&sig=GQVRQX2E1KXQ3QkcOpcEAM1sw%2FIVaWAEtEn5qdypT4c%3D
       - run:
-          when: on_success
-          name: Report Build Success
+          name: Copying Files
           command: |
-                curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build SUCCEEDED for the code push on the branch $CIRCLE_BRANCH. DELIVERED service has been deployed'}" "$teamsurl"
-      - run:    
-          when: on_fail
-          name: Report Build Failure
-          command: |
-                     curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build FAILED for the code push on the branch $CIRCLE_BRANCH.'}" "$teamsurl"
-
-#           - ms-teams/report:
-#               message: App deployment is __build_status__FUL
-#               only_on_fail: false
-#               webhook_url: https://thinkpalm.webhook.office.com/webhookb2/a0ac9943-6ea1-405e-836a-069527bdabe6@eec115d2-8418-4d66-8e18-b4283ffca2b1/IncomingWebhook/2b160a71a2b94aafa8c7c14cb3a1c857/fceee280-987f-4308-baf5-28a0b813654b
-
-        # - ms-teams-notifier/report:
-      #     only_on_fail: false
-      #     webhook_url: https://thinkpalm.webhook.office.com/webhookb2/a0ac9943-6ea1-405e-836a-069527bdabe6@eec115d2-8418-4d66-8e18-b4283ffca2b1/IncomingWebhook/2b160a71a2b94aafa8c7c14cb3a1c857/fceee280-987f-4308-baf5-28a0b813654b
+            sudo wget https://aka.ms/downloadazcopy-v10-linux
+            tar -xvf *azcopy*
+            cp azcopy_linux_amd64*/azcopy .
+            ./azcopy copy "sample.txt" "?sv=2021-12-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-21T18:58:02Z&st=2023-03-21T10:58:02Z&spr=https&sig=GQVRQX2E1KXQ3QkcOpcEAM1sw%2FIVaWAEtEn5qdypT4c%3D" --recursive
       
 
   
@@ -46,38 +34,3 @@ workflows:
     jobs:
       - build
 
-
-
-# version: 2.1
-# parameters:
-#   image-tag:
-#     type: string
-#     default: "latest"
- 
-# jobs:
-#   build:
-#     machine:
-#       image: ubuntu-2004:202008-01
-        
-#     environment:
-#       IMAGETAG: << pipeline.parameters.image-tag >>
-#     steps:
-#       - run: echo $CIRCLE_BUILD_NUM
-
-#   two:
-#     machine:
-#       image: ubuntu-2004:202008-01
-#     steps:
-#       - run: echo ${CIRCLE_PREVIOUS_BUILD_NUM}
-
-#       - run: |
-#           echo "Image tag used was ${IMAGETAG}"
-#           echo << pipeline.number >>
-
-# workflows:
-#   demo:
-#     jobs:
-#       - build
-#       - two:
-#           requires:
-#             - build
