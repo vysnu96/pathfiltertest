@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - checkout
-      - run: ls -ltr
+      - run: lsl -ltr
       # - run: notifier
       # - when:
       #     condition:
