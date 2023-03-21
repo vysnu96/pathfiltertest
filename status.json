@@ -11,8 +11,7 @@
                   "name": "Git ref",
                   "value": "$CIRCLE_BRANCH $CIRCLE_TAG"
                 }
-              ],
-              "markdown": true
+              ]
             }
           ]
         }
