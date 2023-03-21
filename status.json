@@ -5,11 +5,11 @@
           "summary": "CircleCI Build Notification",
           "sections": [
             {
-              "activityTitle": "__build_status__: bd,
+              "activityTitle": "__build_status__: $bd",
               "facts": [
                 {
                   "name": "Git ref",
-                  "value": "ENV["CIRCLE_BRANCH"]"
+                  "value": "$CIRCLE_BRANCH $CIRCLE_TAG"
                 }
               ],
               "markdown": true
