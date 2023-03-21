@@ -1,0 +1,18 @@
+{
+          "@type": "MessageCard",
+          "@context": "http://schema.org/extensions",
+          "themeCdocker_jobolor": "__theme_color__",
+          "summary": "CircleCI Build Notification",
+          "sections": [
+            {
+              "activityTitle": "__build_status__: $CIRCLE_PROJECT_REPONAME job [${CIRCLE_JOB} #${CIRCLE_BUILD_NUM}]($CIRCLE_BUILD_URL)",
+              "facts": [
+                {
+                  "name": "Git ref",
+                  "value": "$CIRCLE_BRANCH $CIRCLE_TAG"
+                }
+              ],
+              "markdown": true
+            }
+          ]
+        }
