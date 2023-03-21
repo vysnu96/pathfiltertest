@@ -10,6 +10,7 @@ jobs:
 
     steps:
       - checkout
+      - run: apt updates
       # - run: notifier
       # - when:
       #     condition:
@@ -18,11 +19,19 @@ jobs:
       #           - equal: [ SUCCESS, __build_status__ ]
       #     steps:
       - run:
-          when: on_success
-          name: Report Build Success
-          command: |
-               sed -e 's/bd/Success/' status.json
-               curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build SUCCEEDED for the code push on the branch $CIRCLE_BRANCH. DELIVERED service has been deployed'}" "$teamsurl"
+      - when: on_success
+          steps:
+            -run: 
+                name: Report Build Success
+                command: |
+                     curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build SUCCEEDED for the code push on the branch $CIRCLE_BRANCH. DELIVERED service has been deployed'}" "$teamsurl"
+      - when: on_fail
+          steps:
+            -run: 
+                name: Report Build Failure
+                command: |
+                     curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build FAILED for the code push on the branch $CIRCLE_BRANCH.'}" "$teamsurl"
+
 #           - ms-teams/report:
 #               message: App deployment is __build_status__FUL
 #               only_on_fail: false
