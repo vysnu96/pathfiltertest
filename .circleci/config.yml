@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - checkout
-      - run: apt updates
+      - run: ls -ltr
       # - run: notifier
       # - when:
       #     condition:
@@ -19,17 +19,14 @@ jobs:
       #           - equal: [ SUCCESS, __build_status__ ]
       #     steps:
       - run:
-      - when: on_success
-          steps:
-            - run: 
-                name: Report Build Success
-                command: |
-                     curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build SUCCEEDED for the code push on the branch $CIRCLE_BRANCH. DELIVERED service has been deployed'}" "$teamsurl"
-      - when: on_fail
-          steps:
-            - run: 
-                name: Report Build Failure
-                command: |
+          when: on_success
+          name: Report Build Success
+          command: |
+                curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build SUCCEEDED for the code push on the branch $CIRCLE_BRANCH. DELIVERED service has been deployed'}" "$teamsurl"
+      - run:    
+          when: on_fail
+          name: Report Build Failure
+          command: |
                      curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build FAILED for the code push on the branch $CIRCLE_BRANCH.'}" "$teamsurl"
 
 #           - ms-teams/report:
