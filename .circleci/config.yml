@@ -21,13 +21,13 @@ jobs:
       - run:
       - when: on_success
           steps:
-            -run: 
+            - run: 
                 name: Report Build Success
                 command: |
                      curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build SUCCEEDED for the code push on the branch $CIRCLE_BRANCH. DELIVERED service has been deployed'}" "$teamsurl"
       - when: on_fail
           steps:
-            -run: 
+            - run: 
                 name: Report Build Failure
                 command: |
                      curl -X POST -H "Content-Type:application/json" -d "{'text':'Hi Team, Build FAILED for the code push on the branch $CIRCLE_BRANCH.'}" "$teamsurl"
