@@ -9,7 +9,7 @@
               "facts": [
                 {
                   "name": "Git ref",
-                  "value": "${CIRCLE_BRANCH}"
+                  "value": '${CIRCLE_BRANCH}'
                 }
               ],
               "markdown": true
