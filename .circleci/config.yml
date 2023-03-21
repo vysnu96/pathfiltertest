@@ -22,7 +22,7 @@ jobs:
           name: Report Build Success
           command: |
                sed -e 's/bd/Success/' status.json
-               curl -X POST -H "Content-Type:application/json" -d "{'branch':'$CIRCLE_BRANCH', 'text':'$CIRCLE_BRANCH'}" https://thinkpalm.webhook.office.com/webhookb2/a0ac9943-6ea1-405e-836a-069527bdabe6@eec115d2-8418-4d66-8e18-b4283ffca2b1/IncomingWebhook/2b160a71a2b94aafa8c7c14cb3a1c857/fceee280-987f-4308-baf5-28a0b813654b
+               curl -X POST -H "Content-Type:application/json" -d "{'branch':'$CIRCLE_BRANCH', 'text':'Branch is $CIRCLE_BRANCH'}" https://thinkpalm.webhook.office.com/webhookb2/a0ac9943-6ea1-405e-836a-069527bdabe6@eec115d2-8418-4d66-8e18-b4283ffca2b1/IncomingWebhook/2b160a71a2b94aafa8c7c14cb3a1c857/fceee280-987f-4308-baf5-28a0b813654b
 #           - ms-teams/report:
 #               message: App deployment is __build_status__FUL
 #               only_on_fail: false
