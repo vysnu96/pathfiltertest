@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Copying Files
           command: |
-              echo $name
+              echo $string
             
 
 workflows:
@@ -17,10 +17,18 @@ workflows:
     jobs:
       - build:
           context: qa
+          filters:
+            branches:
+              only:
+                - qa
 
   dev-deploy:
     jobs:
       - build:
           context: dev
+          filters:
+            branches:
+              only:
+                - dev
 
 
