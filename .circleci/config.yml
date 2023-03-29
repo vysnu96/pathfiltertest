@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Copying Files
           command: |
-              if [ "${NAME}" == "tom" ]; then
+              if [ "$NAME" == "tom" ]; then
                 echo "If Worked
               else
                 echo "Else worked"
@@ -21,4 +21,3 @@ workflows:
   qa-deploy:
     jobs:
       - build
-
