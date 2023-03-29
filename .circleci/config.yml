@@ -10,10 +10,10 @@ jobs:
       - run:
           name: Copying Files
           command: |
-              if [ "$NAME" == "tom" ]; then
-                echo "If Worked
-              else
-                echo "Else worked"
+              if [ "${NAME}" == "tom" ]; then
+                 echo "If Worked
+              elif [ "${NAME}" == "jerry" ]; then
+                 echo "Else worked"
               fi
             
 
