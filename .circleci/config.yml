@@ -10,7 +10,7 @@ jobs:
           name: Copying Files
           command: |
               echo $string
-              echo "<< pipeline.number >>"
+              echo << pipeline.number >>
             
 
 workflows:
