@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  azure-cli: circleci/azure-cli@1.2.2
 jobs:
   build:
     docker:
@@ -8,29 +6,21 @@ jobs:
     resource_class: small
 
     steps:
-      - checkout
-      - azure-cli/install
-      - run: echo "version 1" > sample.txt
-      - run: 
-          name: Storage
-          command: |
-            az storage container create \
-               --account-name ordertest123 \
-               --name sample-container \
-               --sas-token ?sv=2021-12-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-21T18:58:02Z&st=2023-03-21T10:58:02Z&spr=https&sig=GQVRQX2E1KXQ3QkcOpcEAM1sw%2FIVaWAEtEn5qdypT4c%3D
       - run:
           name: Copying Files
           command: |
-            sudo wget https://aka.ms/downloadazcopy-v10-linux
-            tar -xvf *azcopy*
-            cp azcopy_linux_amd64*/azcopy .
-            ./azcopy copy "sample.txt" "?sv=2021-12-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-21T18:58:02Z&st=2023-03-21T10:58:02Z&spr=https&sig=GQVRQX2E1KXQ3QkcOpcEAM1sw%2FIVaWAEtEn5qdypT4c%3D" --recursive
-      
-
-  
+              echo $name
+            
 
 workflows:
-  demo:
+  qa-deploy:
     jobs:
-      - build
+      - build:
+          context: qa
+
+  dev-deploy:
+    jobs:
+      - build:
+          context: dev
+
 
