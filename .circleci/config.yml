@@ -10,6 +10,7 @@ jobs:
           name: Copying Files
           command: |
               echo $string
+              << pipeline.number >>
             
 
 workflows:
