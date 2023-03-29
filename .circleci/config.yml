@@ -4,32 +4,21 @@ jobs:
     docker:
       - image: cimg/base:2023.02
     resource_class: small
-
+    environment:
+      NAME: tom
     steps:
       - run:
           name: Copying Files
           command: |
-              echo $string
-              echo << pipeline.number >>
+              if [ "${NAME}" == "tom" ]; then
+                echo "If Worked
+              else
+                echo "Else worked"
+              fi
             
 
 workflows:
   qa-deploy:
     jobs:
-      - build:
-          context: qa
-          filters:
-            branches:
-              only:
-                - qa
-
-  dev-deploy:
-    jobs:
-      - build:
-          context: dev
-          filters:
-            branches:
-              only:
-                - dev
-
+      - build
 
