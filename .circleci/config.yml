@@ -5,7 +5,7 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     environment:
-      NAME: tom
+      NAME: random
     steps:
       - run:
           name: Copying Files
@@ -14,6 +14,8 @@ jobs:
                  echo "If Worked"
               elif [ "${NAME}" == "jerry" ]; then
                  echo "Else worked"
+              else
+                 echo "Nothing"
               fi
             
 
