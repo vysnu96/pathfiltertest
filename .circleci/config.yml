@@ -14,14 +14,18 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      - run: echo "QA Env"
+      - run: 
+          name: QA
+          command: |
+            echo "QA Env" && echo $QAENVVAR
+            docker login -u $username -p $password
 
   dev:
     docker:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      - run: echo "DEV Env"
+      - run: echo "DEV Env" && echo $DEVENVVAR
 
             
 
@@ -48,6 +52,5 @@ workflows:
           # filters:
           #   branches:
           #     only: dev
-
 
 
