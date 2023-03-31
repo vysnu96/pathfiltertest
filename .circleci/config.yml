@@ -18,7 +18,7 @@ jobs:
           name: QA
           command: |
             echo "QA Env" && echo $QAENVVAR
-            docker login -u $username -p $password
+            docker login https://registry-1.docker.io/v2/ -u $username -p $password
 
   dev:
     docker:
