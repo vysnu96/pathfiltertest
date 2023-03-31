@@ -28,7 +28,7 @@ jobs:
 workflows:
   qa-deploy:
     when:
-      and:
+      or:
         - equal: [qa, << pipeline.git.branch >>]
         - << pipeline.parameters.first >>
     jobs:
@@ -39,7 +39,7 @@ workflows:
           #     only: qa
   dev-deploy:
     when:
-      and:
+      or:
         - equal: [dev, << pipeline.git.branch >>]
         - << pipeline.parameters.second >>
     jobs:
