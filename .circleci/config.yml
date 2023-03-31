@@ -14,14 +14,14 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      - run: echo "QA Env"
+      - run: echo "QA Env" && echo $qa
 
   dev:
     docker:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      - run: echo "DEV Env"
+      - run: echo "DEV Env" && echo $dev
 
             
 
