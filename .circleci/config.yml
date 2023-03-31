@@ -1,34 +1,53 @@
 version: 2.1
+
+parameters:
+  first:
+    type: boolean
+    default: false
+  second:
+    type: boolean
+    default: false
+
 jobs:
-  build:
+  qa:
     docker:
       - image: cimg/base:2023.02
     resource_class: small
-
     steps:
-      - run:
-          name: Copying Files
-          command: |
-              echo $string
+      - run: echo "QA Env"
+
+  dev:
+    docker:
+      - image: cimg/base:2023.02
+    resource_class: small
+    steps:
+      - run: echo "DEV Env"
+
             
 
 workflows:
   qa-deploy:
+    when:
+      and:
+        - equal: [qa, << pipeline.git.branch >>]
+        - << pipeline.parameters.first >>
     jobs:
-      - build:
+      - qa:
           context: qa
-          filters:
-            branches:
-              only:
-                - qa
-
+          # filters:
+          #   branches:
+          #     only: qa
   dev-deploy:
+    when:
+      and:
+        - equal: [dev, << pipeline.git.branch >>]
+        - << pipeline.parameters.second >>
     jobs:
-      - build:
+      - dev:
           context: dev
-          filters:
-            branches:
-              only:
-                - dev
+          # filters:
+          #   branches:
+          #     only: dev
+
 
 
