@@ -17,7 +17,7 @@ jobs:
       - run: 
           name: QA
           command: |
-            echo "QA Env" && echo $QAENVVAR
+            echo "QA Env" && echo $abcd
             docker login https://registry-1.docker.io/v2/ -u $username -p $password
 
   dev:
