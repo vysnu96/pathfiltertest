@@ -18,6 +18,7 @@ jobs:
           name: QA
           command: |
             echo "QA Env" && echo $abcd
+            echo $efgh
             #docker login https://registry-1.docker.io/v2/ -u $username -p $password
 
   dev:
