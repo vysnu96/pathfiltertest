@@ -14,14 +14,27 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      - run: curl -s -X POST  https://api.telegram.org/bot5739376283:AAGd3SUAy5h99ASUha8MPTPQ4UGtPlqyrdY/sendMessage -d chat_id=728206823 -d text="$name"
+      - run: echo "$name"
 
 workflows:
+  qa-build:
+    when:
+      condition:
+        or:
+          - and:
+            - equal: [qa, << pipeline.git.branch >>]
+            - << pipeline.parameters.first >>
+    jobs:
+      - build:
+          context: qa
+          
   qa-deploy:
     when:
-      or:
-        - equal: [qa, << pipeline.git.branch >>]
-        - << pipeline.parameters.first >>
+      condition:
+        or:
+          - and:
+            - equal: [qa, << pipeline.git.branch >>]
+            - << pipeline.parameters.first >>
     jobs:
       - build:
           context: qa
