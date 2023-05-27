@@ -5,6 +5,11 @@ executors:
       - image: cimg/base:2023.02
     resource_class: small
     working_directory: /tmp
+parameters:
+  action:
+    type: enum
+    enum: [build, report]
+    default: build
 jobs:
   flow:
     executor: my-executor
@@ -40,8 +45,12 @@ jobs:
 
 workflows:
   btd:
+    when:
+      equal: [ build, << pipeline.parameters.action >> ]
     jobs:
       - flow
-      - downstream:
-          requires:
-            - flow
+  second:
+    when:
+      equal: [ report, << pipeline.parameters.action >> ]
+    jobs:
+      - downstream
