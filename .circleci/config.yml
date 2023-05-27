@@ -1,34 +1,20 @@
 version: 2.1
+
 jobs:
-  build:
+  print-a-message:
     docker:
       - image: cimg/base:2023.02
     resource_class: small
-
+    parameters:
+      message:
+        type: string
+        default: ""
     steps:
-      - run:
-          name: Copying Files
-          command: |
-              echo $string
-            
-
+      - run: echo << parameters.message >>
+​
 workflows:
-  qa-deploy:
+  my-workflow:
     jobs:
-      - build:
-          context: qa
-          filters:
-            branches:
-              only:
-                - qa
-
-  dev-deploy:
-    jobs:
-      - build:
-          context: dev
-          filters:
-            branches:
-              only:
-                - dev
-
+      - print-a-message:
+          message: Hello!
 
