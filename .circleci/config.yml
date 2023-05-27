@@ -10,8 +10,10 @@ jobs:
         type: string
         default: ""
     steps:
-      - run: echo << parameters.message >>
-​
+      - run: 
+          name: Step 1
+          command: echo << parameters.message >>
+
 workflows:
   my-workflow:
     jobs:
