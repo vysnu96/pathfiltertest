@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Build Image on condition
           command: |
-            if [ "${CIRCLE_BRANCH}" == "dev" || "${CIRCLE_BRANCH}" == "qa" ]; then
+            if [[ $CIRCLE_BRANCH == "dev" || $CIRCLE_BRANCH == "qa" ]]; then
                 echo "From dev or qa"
             else
                 echo "From test"
