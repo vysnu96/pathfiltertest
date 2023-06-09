@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Build Image on condition
           command: |
-            if [ $CIRCLE_BRANCH == "development" || $CIRCLE_BRANCH == "qa" ]; then
+            if [[ $CIRCLE_BRANCH == "development" || $CIRCLE_BRANCH == "qa" ]]; then
                 - azure-acr/build-and-push-image:
                     dockerfile: ./publication-service/Dockerfile
                     path: .
