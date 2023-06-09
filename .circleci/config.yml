@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Build Image on condition
           command: |
-            if [[ $CIRCLE_BRANCH == "development" || $CIRCLE_BRANCH == "qa" ]]; then
+            if [[ $CIRCLE_BRANCH == "dev" || $CIRCLE_BRANCH == "qa" ]]; then
                 - azure-acr/build-and-push-image:
                     dockerfile: ./publication-service/Dockerfile
                     path: .
@@ -32,13 +32,11 @@ jobs:
                       docker tag orderbase.azurecr.io/$sequence:$TAG orderbase.azurecr.io/uat/sequence:$TAG
                       docker push orderbase.azurecr.io/uat/sequence:$TAG
             else
-                - run:
-                    name: Login to ACR
-                    command: |
-                      - azure-cli/install
-                      - azure-cli/login-with-service-principal
-                      - azure-acr/acr-login:
-                          registry-name: orderbase
+                - azure-cli/install
+                - azure-cli/login-with-service-principal
+                - azure-acr/acr-login:
+                    registry-name: orderbase
+                      
                 - run:
                     name: Re-Tag
                     command: |
