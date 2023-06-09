@@ -18,14 +18,14 @@ jobs:
       - run:
           name: Build Image on condition
           command: |
-            if [ "${CIRCLE_BRANCH}" == "uat" ]; then
+            if [[ $CIRCLE_BRANCH == "dev" || $CIRCLE_BRANCH == "qa" ]]; then
                 - azure-acr/build-and-push-image:
-                  dockerfile: ./publication-service/Dockerfile
-                  path: .
-                  login-server-name: orderbase.azurecr.io
-                  registry-name: orderbase     
-                  repo: $publication
-                  tag: $TAG
+                    dockerfile: ./publication-service/Dockerfile
+                    path: .
+                    login-server-name: orderbase.azurecr.io
+                    registry-name: orderbase     
+                    repo: $publication
+                    tag: $TAG
             else
                 docker pull orderbase.azurecr.io/qa/sequence:1745 
                 docker tag orderbase.azurecr.io/qa/sequence:1745 orderbase.azurecr.io/uat/sequence:1.0.<< pipeline.number >>
