@@ -15,33 +15,22 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      if [[ $CIRCLE_BRANCH == "dev" || $CIRCLE_BRANCH == "qa" ]]; then
-          - azure-acr/build-and-push-image:
-              dockerfile: ./publication-service/Dockerfile
-              path: .
-              login-server-name: orderbase.azurecr.io
-              registry-name: orderbase     
-              repo: $sequence
-              tag: $TAG
-          - run:
-              name: Pushing to UAT
-              command: |
-                docker tag orderbase.azurecr.io/$sequence:$TAG orderbase.azurecr.io/uat/sequence:$TAG
-                docker push orderbase.azurecr.io/uat/sequence:$TAG
-      else
-#           steps:
-#             - azure-cli/install
-#             - azure-cli/login-with-service-principal
-#             - azure-acr/acr-login:
-#                 registry-name: orderbase
-
-#             - run:
-#                 name: Re-Tag
-#                 command: |
-#                   docker pull orderbase.azurecr.io/qa/sequence:1745 
-#                   docker tag orderbase.azurecr.io/qa/sequence:1745 orderbase.azurecr.io/uat/sequence:1.0.<< pipeline.number >>
-#                   docker images
-      fi   
+      - run:
+          name: Build Image on condition
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "uat" ]; then
+                - azure-acr/build-and-push-image:
+                  dockerfile: ./publication-service/Dockerfile
+                  path: .
+                  login-server-name: orderbase.azurecr.io
+                  registry-name: orderbase     
+                  repo: $publication
+                  tag: $TAG
+            else
+                docker pull orderbase.azurecr.io/qa/sequence:1745 
+                docker tag orderbase.azurecr.io/qa/sequence:1745 orderbase.azurecr.io/uat/sequence:1.0.<< pipeline.number >>
+                docker images
+            fi   
       - helm/install-helm-client
       - run:
           name: Install Helm
