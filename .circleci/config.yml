@@ -1,36 +1,33 @@
 version: 2.1
+
+parameters:
+  first:
+    type: boolean
+    default: false
+
 jobs:
   build:
-    # docker:
-    #   - image: cimg/base:2023.02
-    machine:
-      image: ubuntu-2204:2023.02.1
-    # resource_class: small
+    docker:
+      - image: cimg/base:2023.02
+    resource_class: small
+    steps:
+      - run:
+          name: Build Image on condition
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" || "${CIRCLE_BRANCH}" == "qa" ]; then
+                echo "From dev or qa"
+            else
+                echo "From test"
+              
+            fi   
 
-    steps:     
-      - run:
-          name: Trigger
-          command: |
-            sudo apt-get update
-      - run: sudo apt install snapd
-      - run: sudo snap install powershell --classic
-      - run:
-          name: second
-          command: |
-            echo "Invoke-WebRequest -Method Post -Uri https://54d67954-a7c4-4634-a3db-b23fd8202616.webhook.eus.azure-automation.net/webhooks?token=uWnG1PD0QTsyh5qnFRNVlpHSQRt4cRiBYNcmjmKGz0o%3d" > script.ps
-            powershell script.ps
-      # - run:
-      #     name: conditional steps
-      #     command: |
-      #       if [ << pipeline.number >> == 1]; then
-      #         echo "New Pipeline"
-      #       else
-      #         echo "This is old pipeline with number << pipeline.number >> "
-      #       fi
 workflows:
-  demo:
-    # when:
-    #   or:
-    #     - equal: [ test, << pipeline.git.tag >> ]
+  deploy:
+    when:
+      or:
+        - << pipeline.parameters.first >>
     jobs:
       - build
+
+
+
