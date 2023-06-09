@@ -1,4 +1,5 @@
 version: 2.1
+orbs:
   azure-acr: circleci/azure-acr@0.2.1
   azure-aks: circleci/azure-aks@0.3.0
   helm: circleci/helm@2.0.1
