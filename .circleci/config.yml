@@ -16,19 +16,19 @@ jobs:
     resource_class: small
     steps:
       if [[ $CIRCLE_BRANCH == "dev" || $CIRCLE_BRANCH == "qa" ]]; then
-           steps:
-              - azure-acr/build-and-push-image:
-                  dockerfile: ./publication-service/Dockerfile
-                  path: .
-                  login-server-name: orderbase.azurecr.io
-                  registry-name: orderbase     
-                  repo: $sequence
-                  tag: $TAG
-              - run:
-                  name: Pushing to UAT
-                  command: |
-                    docker tag orderbase.azurecr.io/$sequence:$TAG orderbase.azurecr.io/uat/sequence:$TAG
-                    docker push orderbase.azurecr.io/uat/sequence:$TAG
+         steps:
+            - azure-acr/build-and-push-image:
+                dockerfile: ./publication-service/Dockerfile
+                path: .
+                login-server-name: orderbase.azurecr.io
+                registry-name: orderbase     
+                repo: $sequence
+                tag: $TAG
+            - run:
+                name: Pushing to UAT
+                command: |
+                  docker tag orderbase.azurecr.io/$sequence:$TAG orderbase.azurecr.io/uat/sequence:$TAG
+                  docker push orderbase.azurecr.io/uat/sequence:$TAG
       else
           steps:
             - azure-cli/install
