@@ -17,7 +17,7 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "dev" || "${CIRCLE_BRANCH}" == "qa" ]; then
                 echo "From dev or qa"
             else
-                echo "From uat"
+                echo "From test"
               
             fi   
 
