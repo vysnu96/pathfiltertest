@@ -15,21 +15,19 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
+      - checkout
+      - azure-cli/install
+      - azure-cli/login-with-service-principal
+      - azure-acr/acr-login:
+          registry-name: orderbase
       - run:
           name: Build Image on condition
           command: |
             if [[ $CIRCLE_BRANCH == "dev" || $CIRCLE_BRANCH == "qa" ]]; then
-                - azure-acr/build-and-push-image:
-                    dockerfile: ./publication-service/Dockerfile
-                    path: .
-                    login-server-name: orderbase.azurecr.io
-                    registry-name: orderbase     
-                    repo: $publication
-                    tag: $TAG
-            else
-                docker pull orderbase.azurecr.io/qa/sequence:1745 
-                docker tag orderbase.azurecr.io/qa/sequence:1745 orderbase.azurecr.io/uat/sequence:1.0.<< pipeline.number >>
-                docker images
+                 docker build ./publication-service/Dockerfile -t << pipeline.number >>
+                 docker push orderbase.azurecr.io/$sequence:<< pipeline.number >>
+                 docker tag orderbase.azurecr.io/$sequence:<< pipeline.number >> orderbase.azurecr.io/uat/sequence:<< pipeline.number >>
+                 docker push orderbase.azurecr.io/uat/sequence:<< pipeline.number >>
             fi   
       - helm/install-helm-client
       - run:
