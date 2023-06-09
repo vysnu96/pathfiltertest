@@ -32,16 +32,19 @@ jobs:
                       docker tag orderbase.azurecr.io/$sequence:$TAG orderbase.azurecr.io/uat/sequence:$TAG
                       docker push orderbase.azurecr.io/uat/sequence:$TAG
             else
-              - azure-cli/install
-              - azure-cli/login-with-service-principal
-              - azure-acr/acr-login:
-                  registry-name: orderbase
-              - run:
-                  name: Re-Tag
-                  command: |
-                    docker pull orderbase.azurecr.io/qa/sequence:1745 
-                    docker tag orderbase.azurecr.io/qa/sequence:1745 orderbase.azurecr.io/uat/sequence:1.0.<< pipeline.number >>
-                    docker images
+                - run:
+                    name: Login to ACR
+                    command: |
+                      - azure-cli/install
+                      - azure-cli/login-with-service-principal
+                      - azure-acr/acr-login:
+                          registry-name: orderbase
+                - run:
+                    name: Re-Tag
+                    command: |
+                      docker pull orderbase.azurecr.io/qa/sequence:1745 
+                      docker tag orderbase.azurecr.io/qa/sequence:1745 orderbase.azurecr.io/uat/sequence:1.0.<< pipeline.number >>
+                      docker images
             fi   
       - helm/install-helm-client
       - run:
