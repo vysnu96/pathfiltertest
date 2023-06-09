@@ -16,6 +16,8 @@ jobs:
     resource_class: small
     steps:
       - checkout
+      - run: pwd
+      - run: ls -ltr
       - azure-cli/install
       - azure-cli/login-with-service-principal
       - azure-acr/acr-login:
