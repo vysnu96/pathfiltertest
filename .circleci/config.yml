@@ -1,9 +1,4 @@
 version: 2.1
-orbs:
-  azure-acr: circleci/azure-acr@0.2.1
-  azure-aks: circleci/azure-aks@0.3.0
-  helm: circleci/helm@2.0.1
-  azure-cli: circleci/azure-cli@1.2.2
 parameters:
   first:
     type: boolean
@@ -15,51 +10,12 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      - checkout
-      - run: pwd
-      - run: ls -ltr
-      - azure-cli/install
-      - azure-cli/login-with-service-principal
-      - azure-acr/acr-login:
-          registry-name: orderbase
-      - run:
-          name: Build Image on condition
-          command: |
-            if [[ $CIRCLE_BRANCH == "dev" || $CIRCLE_BRANCH == "qa" ]]; then
-                 docker build ./publication-service/Dockerfile -t << pipeline.number >>
-                 docker push orderbase.azurecr.io/$sequence:<< pipeline.number >>
-                 docker tag orderbase.azurecr.io/$sequence:<< pipeline.number >> orderbase.azurecr.io/uat/sequence:<< pipeline.number >>
-                 docker push orderbase.azurecr.io/uat/sequence:<< pipeline.number >>
-            fi   
-      - helm/install-helm-client
-      - run:
-          name: Install Helm
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "qa" ]; then 
-                export VAULT_TOKEN=$(curl -s --header "X-Vault-Namespace: $VAULT_NAMESPACE" --request POST --data '{"role_id": "6c0de7d2-6ebf-5b20-0d6a-7f1489b3ca48", "secret_id": "3edec4d5-1f80-7a51-86cf-14ee89c13e76"}' $VAULT_ADDR/v1/auth/approle/login | jq -r '.auth.client_token' )
-                export username=$(curl -s --header "X-Vault-Token: $VAULT_TOKEN" --header "X-Vault-Namespace: $VAULT_NAMESPACE" $VAULT_ADDR/v1/secret/data/mongodb_secret_qa | jq -r ".data.data.username")
-                export password=$(curl -s --header "X-Vault-Token: $VAULT_TOKEN" --header "X-Vault-Namespace: $VAULT_NAMESPACE" $VAULT_ADDR/v1/secret/data/mongodb_secret_qa | jq -r ".data.data.password")
-                helm upgrade sequence ./sequence-generator/helm --set zeebe.address=$zeebe --set buildnum=<< pipeline.number >> --set image.repository=orderbase.azurecr.io/$sequence --set database.host=$host --set database.username=$username --set database.password=$password --namespace orderbase
-            elif [ "${CIRCLE_BRANCH}" == "development" ]; then
-                helm upgrade sequence ./sequence-generator/helm --set userdetails=$USER_DETAILS_SERVICE_URL --set buildnum=<< pipeline.number >> --set image.repository=orderbase.azurecr.io/$sequence --set database.host=$host --set database.username=orderbase --set database.password=orderbase --namespace orderbase
-            else
-                echo "This is from UAT"
-            fi
-#       - run:
-#           name: Build Image on condition
-#           command: |
-#             if [[ $CIRCLE_BRANCH == "dev" || $CIRCLE_BRANCH == "qa" ]]; then
-#                 echo "From dev or qa"
-#             else
-#                 echo "From test"
-              
-#             fi   
-
+      - run: echo << pipeline.git.tag >>    
 workflows:
   deploy:
-    when:
-      or:
-        - << pipeline.parameters.first >>
+    # when:
+    #   or:
+    #     - << pipeline.parameters.first >>
     jobs:
       - build
 
