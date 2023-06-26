@@ -17,7 +17,7 @@ workflows:
   production:
     when:
       and:
-        - and: [<< pipeline.parameters.GHA_Action >>]
+#        - and: [<< pipeline.parameters.GHA_Action >>]
         - equal: ["release", << pipeline.parameters.GHA_Event >>]
     jobs:
       - test:
