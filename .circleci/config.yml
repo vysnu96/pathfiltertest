@@ -1,56 +1,97 @@
 version: 2.1
+parameters:
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
+
+workflows:
+  production:
+    when:
+      and:
+        - and: [<< pipeline.parameters.GHA_Action >>]
+        - equal: ["release", << pipeline.parameters.GHA_Event >>]
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v.*/
+            branches: 
+              only: prod
+
 executors:
   my-executor:
     docker:
       - image: cimg/base:2023.02
     resource_class: small
-    working_directory: /tmp
-parameters:
-  action:
-    type: enum
-    enum: [build, report]
-    default: build
 jobs:
-  flow:
+  test:
     executor: my-executor
     steps:
-      - run: mkdir -p workspace
-      - run: |
-          echo "Hello, world!" > workspace/echo-output
-          ls -ltr
-          pwd
+      - checkout
+      - run: echo "Hello CircleCI!"
 
-      # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
-      - persist_to_workspace:
-          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
-          # taken to be the root directory of the workspace.
-          root: workspace
-          # Must be relative path from root
-          paths:
-            - echo-output
+# version: 2.1
+# executors:
+#   my-executor:
+#     docker:
+#       - image: cimg/base:2023.02
+#     resource_class: small
+#     working_directory: /tmp
+# parameters:
+#   action:
+#     type: enum
+#     enum: [build, report]
+#     default: build
+# jobs:
+#   flow:
+#     executor: my-executor
+#     steps:
+#       - run: mkdir -p workspace
+#       - run: |
+#           echo "Hello, world!" > workspace/echo-output
+#           ls -ltr
+#           pwd
 
-  downstream:
-    executor: my-executor
-    steps:
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: /tmp/workspace
+#       # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
+#       - persist_to_workspace:
+#           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+#           # taken to be the root directory of the workspace.
+#           root: workspace
+#           # Must be relative path from root
+#           paths:
+#             - echo-output
 
-      - run: |
-          if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
-            echo "It worked!";
-          else
-            echo "Nope!"; exit 1
-          fi
+#   downstream:
+#     executor: my-executor
+#     steps:
+#       - attach_workspace:
+#           # Must be absolute path or relative path from working_directory
+#           at: /tmp/workspace
 
-workflows:
-  btd:
-    when:
-      equal: [ build, << pipeline.parameters.action >> ]
-    jobs:
-      - flow
-  second:
-    when:
-      equal: [ report, << pipeline.parameters.action >> ]
-    jobs:
-      - downstream
+#       - run: |
+#           if [[ `cat /tmp/workspace/echo-output` == "Hello, world!" ]]; then
+#             echo "It worked!";
+#           else
+#             echo "Nope!"; exit 1
+#           fi
+
+# workflows:
+#   btd:
+#     when:
+#       equal: [ build, << pipeline.parameters.action >> ]
+#     jobs:
+#       - flow
+#   second:
+#     when:
+#       equal: [ report, << pipeline.parameters.action >> ]
+#     jobs:
+#       - downstream
