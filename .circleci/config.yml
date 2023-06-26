@@ -22,8 +22,8 @@ workflows:
     jobs:
       - test:
           filters:
-            tags:
-              only: /^v*/
+            # tags:
+            #   only: /^v*/
             branches: 
               only: prod
 
