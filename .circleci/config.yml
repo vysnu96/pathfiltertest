@@ -12,13 +12,17 @@ parameters:
   GHA_Meta:
     type: string
     default: ""
+  test:
+    type: string
+    default: ""
 
 workflows:
   production:
-    # when:
-    #   and:
+    when:
+      or:
     #     - and: [<< pipeline.parameters.GHA_Action >>]
-    #     - equal: ["release", << pipeline.parameters.GHA_Event >>]
+        # - equal: ["release", << pipeline.parameters.GHA_Event >>]
+        - equal: ["whythefuck", << pipeline.parameters.test >>]
     jobs:
       - test:
           filters:
