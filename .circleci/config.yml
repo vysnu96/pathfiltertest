@@ -15,15 +15,15 @@ parameters:
 
 workflows:
   production:
-    when:
-      and:
-#        - and: [<< pipeline.parameters.GHA_Action >>]
-        - equal: ["release", << pipeline.parameters.GHA_Event >>]
+    # when:
+    #   and:
+    #     - and: [<< pipeline.parameters.GHA_Action >>]
+    #     - equal: ["release", << pipeline.parameters.GHA_Event >>]
     jobs:
       - test:
           filters:
-            tags:
-              only: /^v.*/
+            # tags:
+            #   only: /^v.*/
             branches: 
               only: prod
 
