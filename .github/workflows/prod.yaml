@@ -15,7 +15,7 @@ jobs:
         run: |
           curl \
             -u CCIPAT_BsQMFTLdo8aMmM9oZAcypr_3312685dc0ef6dd59b25c0291f482da550f38050 \
-            -X POST --header "Content-Type: application/json" -d {"parameters": {"test": "whythefuck"}} \
+            -X POST --header "Content-Type: application/json" -d {"parameters": {"test": whythefuck}} \
             https://circleci.com/api/v2/project/gh/vysnu96/pathfiltertest/pipeline
 #         uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.1.0
 #         env:
