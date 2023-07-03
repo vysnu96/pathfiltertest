@@ -11,23 +11,18 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      - run:
-          name: Build Image on condition
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "dev" || "${CIRCLE_BRANCH}" == "qa" ]; then
-                echo "From dev or qa"
-            else
-                echo "From test"
-              
-            fi   
-
+      - run: echo "Hi from CircleCI!" 
 workflows:
   deploy:
     when:
       or:
         - << pipeline.parameters.first >>
     jobs:
-      - build
+      - build:
+          filters:  
+            branches:
+              only:
+                - test
 
 
 
