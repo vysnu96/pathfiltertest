@@ -1,28 +1,20 @@
 version: 2.1
 
-parameters:
-  first:
-    type: boolean
-    default: false
-
 jobs:
   build:
     docker:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
+      - checkout
       - run: echo "Hi from CircleCI!" 
+      - run: zip facts.zip *
+      - store_artifacts:
+          path: /home/circleci/facts.zip
 workflows:
   deploy:
-    when:
-      or:
-        - << pipeline.parameters.first >>
     jobs:
       - build:
           filters:  
             branches:
-              only:
-                - test
-
-
-
+              ignore: /.*/
