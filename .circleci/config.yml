@@ -15,10 +15,13 @@ jobs:
       - run: ls -ltr && pwd
       # - store_artifacts:
       #     path: /home/circleci/project/facts.zip
-      - persist_to_workspace:
-          root: /home/circleci/project
-          paths:
-            - facts.zip
+      # - persist_to_workspace:
+      #     root: /home/circleci/project
+      #     paths:
+      #       - facts.zip
+      - attach_workspace:
+          at: /home/circleci/project
+      - run: ls -ltr && pwd
 
 workflows:
   deploy:
