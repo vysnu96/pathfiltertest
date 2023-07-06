@@ -9,10 +9,10 @@ jobs:
       - image: cimg/base:2023.02
     resource_class: small
     steps:
-      - checkout
-      - run: echo "Hi from CircleCI!"
-      - run: zip facts.zip *
-      - run: ls -ltr && pwd
+      # - checkout
+      # - run: echo "Hi from CircleCI!"
+      # - run: zip facts.zip *
+      # - run: ls -ltr && pwd
       # - store_artifacts:
       #     path: /home/circleci/project/facts.zip
       # - persist_to_workspace:
