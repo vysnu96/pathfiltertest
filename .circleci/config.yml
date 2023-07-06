@@ -1,5 +1,8 @@
 version: 2.1
-
+parameters:
+  first:
+    type: boolean
+    default: false
 jobs:
   build:
     docker:
@@ -13,6 +16,8 @@ jobs:
           path: /home/circleci/facts.zip
 workflows:
   deploy:
+    when:
+      - << pipeline.parameters.first >>
     jobs:
       - build:
           filters:  
