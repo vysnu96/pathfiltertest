@@ -13,8 +13,13 @@ jobs:
       - run: echo "Hi from CircleCI!"
       - run: zip facts.zip *
       - run: ls -ltr && pwd
-      - store_artifacts:
-          path: /home/circleci/project/facts.zip
+      # - store_artifacts:
+      #     path: /home/circleci/project/facts.zip
+      - persist_to_workspace:
+          root: /home/circleci/project
+          paths:
+            - facts.zip
+
 workflows:
   deploy:
     when:
