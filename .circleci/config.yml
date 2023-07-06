@@ -10,8 +10,9 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run: echo "Hi from CircleCI!" 
+      - run: echo "Hi from CircleCI!"
       - run: zip facts.zip *
+      - run: ls -ltr && pwd
       - store_artifacts:
           path: /home/circleci/facts.zip
 workflows:
