@@ -18,9 +18,7 @@ workflows:
     #     - << pipeline.parameters.first >>
     jobs:
       - build:
-          filters:  
-            branches:
+          filters:
+            tags:
               only:
-                - test
-            commit_message:
-              pattern: /^v\d+\.\d+\.\d+$/
+                - /^v\d+\.\d+\.\d+$/
