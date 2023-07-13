@@ -25,7 +25,9 @@ jobs:
 
 workflows:
   release:
-    when: << pipeline.parameters.GHA_Event >>
+    when: 
+      or:
+        - << pipeline.parameters.GHA_Event >>
     jobs:
       - build
   deploy:
