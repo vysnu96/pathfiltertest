@@ -1,6 +1,6 @@
 on:
   release:
-    types: [published]
+    types: [published, edited]
 jobs:
   trigger-circleci:
     runs-on: ubuntu-latest
