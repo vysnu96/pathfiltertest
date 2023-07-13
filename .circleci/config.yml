@@ -3,6 +3,18 @@ parameters:
   first:
     type: boolean
     default: false
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
 jobs:
   build:
     docker:
@@ -12,6 +24,11 @@ jobs:
       - run: echo "Hi from CircleCI!"
 
 workflows:
+  release:
+    when:
+      equal: [ "release", << pipeline.parameters.GHA_Event >>]
+    jobs:
+      - build
   deploy:
     when:
       or:
