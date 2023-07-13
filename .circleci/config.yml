@@ -13,9 +13,9 @@ jobs:
 
 workflows:
   deploy:
-    # when:
-    #   or:
-    #     - << pipeline.parameters.first >>
+    when:
+      or:
+        - << pipeline.parameters.first >>
     jobs:
       - build:
           filters:
