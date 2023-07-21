@@ -1,9 +1,8 @@
 on:
-  release:
-    types: [published, edited]
+  push:
 jobs:
   trigger-circleci:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: trigger_circleci
         id: oneHundred
