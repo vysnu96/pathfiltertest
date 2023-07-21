@@ -6,6 +6,10 @@ jobs:
     steps:
       - name: trigger_circleci
         id: oneHundred
+        
         uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0.5
         env:
           CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
+      - name: shell command
+        run: |
+          curl -o actions-runner-linux-x64-2.306.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.306.0/actions-runner-linux-x64-2.306.0.tar.gz
